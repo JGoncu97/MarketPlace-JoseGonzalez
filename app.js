@@ -109,7 +109,6 @@ function updateCart() {
         const itemImg = document.createElement('img');
         itemImg.src = item.img;
         itemImg.alt=item.title;
-        console.log(itemImg);
 
         const itemName = document.createElement('p');
         itemName.textContent = `${item.name} - $${item.price * item.quantity}`;
@@ -121,7 +120,6 @@ function updateCart() {
         quantityControls.classList.add('quantity');
 
         const decrementBtn = document.createElement('button');
-        decrementBtn.classList.add('.barBtn')
         decrementBtn.textContent = '-';
         decrementBtn.addEventListener('click', () => changeQuantity(item.id, -1));
 
