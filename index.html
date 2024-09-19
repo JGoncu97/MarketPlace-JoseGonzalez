@@ -9,9 +9,22 @@
 <body>
     <header>
         <img class="logo" src="./assest/logo1-removebg-preview.png" alt="">
-        <h1>Mi miniMarket ApiRest</h1>
+        <h1>MiniMarket ApiRest</h1>
     </header>
     <nav>
+        <div class="filters">
+            <label for="sort-price">Ordenar por Precio:</label>
+            <select id="sort-price">
+                <option value="default">Todos los productos</option>
+                <option value="asc">Precio: Menor a Mayor</option>
+                <option value="desc">Precio: Mayor a Menor</option>
+            </select>
+    
+            <label for="filter-category">Filtrar por Categoría:</label>
+            <select id="filter-category">
+                <option value="all">Todas</option>
+            </select>
+        </div>
         <button class="btn-cart1" id="btn-cart">
             <img src="./assest/shopping-cart_12317487.png" alt="" class="cart-icon">
         </button>
@@ -30,6 +43,7 @@
 
         </div>
     </main>
+    
     
     <footer>
         <h5>Todos los derechos reservados por Jose Gregorio Gonzalez</h5>

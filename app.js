@@ -5,21 +5,35 @@ const pCounter = document.getElementById('p-counter');
 const cartBox = document.getElementById('mySidebar');
 const cartBtn = document.getElementById('btn-cart');
 const closeBtn = document.getElementById('button');
+const sortPriceSelect = document.getElementById('sort-price');
+const filterCategorySelect = document.getElementById('filter-category');
 
 
 
 let cartProduct = [];
+let allProducts = [];
 let pCounterCar = 0;
 
 const getProduct = async (url) => {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data); 
+        allProducts = data;
+        populateCategories(data);
         render(data);
     } catch (error) {
         console.error('Error fetching data', error);
     }
+}
+
+const populateCategories = (products) => {
+    const categories = [...new Set(products.map(product => product.category))];
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = capitalizeFirstLetter(category);
+        filterCategorySelect.appendChild(option);
+    });
 }
 
 const makeCard = (product) => {
@@ -93,6 +107,10 @@ function addToCart(product) {
     localStorage.setItem('cart', JSON.stringify(cartProduct));
 
     updateCart();
+}
+
+const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function updateCart() {
@@ -196,6 +214,29 @@ closeBtn.addEventListener('click', () => {
     console.log('Botón de cerrar clickeado');
     closeCart();
 });
+
+const filterProducts = () => {
+    let filteredProducts = [...allProducts];
+
+    
+    const selectedCategory = filterCategorySelect.value;
+    if (selectedCategory !== 'all') {
+        filteredProducts = filteredProducts.filter(product => product.category === selectedCategory);
+    }
+
+    
+    const selectedSort = sortPriceSelect.value;
+    if (selectedSort === 'asc') {
+        filteredProducts.sort((a, b) => a.price - b.price);
+    } else if (selectedSort === 'desc') {
+        filteredProducts.sort((a, b) => b.price - a.price);
+    }
+
+    render(filteredProducts);
+}
+
+sortPriceSelect.addEventListener('change', filterProducts);
+filterCategorySelect.addEventListener('change', filterProducts);
 
 function loadCart() {
     const storedCart = localStorage.getItem('cart');
